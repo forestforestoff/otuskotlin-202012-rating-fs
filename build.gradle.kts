@@ -1,2 +1,0 @@
-group = "ru.otus"
-version = "0.0.1"
