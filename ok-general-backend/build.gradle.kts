@@ -2,8 +2,11 @@ plugins {
     kotlin("jvm") version "1.4.30"
 }
 
-group = "ru.otus"
-version = "0.0.1"
+val groupName: String by project
+val groupVersion: String by project
+
+group = groupName
+version = groupVersion
 
 repositories {
     mavenCentral()
