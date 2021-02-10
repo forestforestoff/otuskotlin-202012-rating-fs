@@ -1,2 +1,5 @@
-group = "ru.otus"
-version = "0.0.1"
+val groupName: String by project
+val projectVersion: String by project
+
+group = groupName
+version = projectVersion
