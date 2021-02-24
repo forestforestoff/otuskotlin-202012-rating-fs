@@ -1,5 +1,12 @@
-val groupName: String by project
-val projectVersion: String by project
+group = "ru.otus.kotlin.rating"
+version = "0.0.1"
 
-group = groupName
-version = projectVersion
+subprojects {
+    group = rootProject.group
+    version = rootProject.version
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
