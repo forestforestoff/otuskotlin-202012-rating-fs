@@ -10,6 +10,6 @@ pluginManagement {
     }
 }
 
-include("ok-general-multiplatform")
-include("ok-general-backend")
-include("ok-general")
+include("multiplatform-common")
+include("backend-common")
+include("transport-openapi")
