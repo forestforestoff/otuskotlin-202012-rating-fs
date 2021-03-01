@@ -1,4 +1,4 @@
-group = "ru.otus.kotlin.rating"
+group = "ru.otus"
 version = "0.0.1"
 
 subprojects {

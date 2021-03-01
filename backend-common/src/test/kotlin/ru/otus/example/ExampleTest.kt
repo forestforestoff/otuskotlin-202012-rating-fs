@@ -1,6 +1,6 @@
 package ru.otus.example
 
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ExampleTest {

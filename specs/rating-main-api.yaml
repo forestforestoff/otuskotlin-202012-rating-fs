@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Rating
+  description: 'A training project to create a rating. A service that will help to add a rating to any entity'
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: rating
+    description: Rating
+paths:
+  /rating/create:
+    post:
+      tags:
+        - rating
+      summary: Create rating.
+      operationId: createRating
+      requestBody:
+        description: Model to create the rating.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RatingCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Rating was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RatingResponse'
+  /rating/get:
+    post:
+      tags:
+        - rating
+      summary: Get the rating by ID.
+      operationId: getRating
+      requestBody:
+        description: String ID of the rating to get.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RatingRequest'
+        required: true
+      responses:
+        200:
+          description: Rating was successfully received.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RatingResponse'
+  /rating/update:
+    post:
+      tags:
+        - rating
+      summary: Update the rating by vote.
+      operationId: updateRating
+      requestBody:
+        description: Vote to update the rating.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoteRequest'
+        required: true
+      responses:
+        200:
+          description: Rating was successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RatingResponse'
+components:
+  schemas:
+    RatingRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Rating ID.
+    RatingCreateRequest:
+      type: object
+      properties:
+        groupId:
+          type: string
+          description: Rating group ID.
+    VoteRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Rating ID.
+        groupId:
+          type: string
+          description: Rating group ID.
+        value:
+          type: integer
+          format: integer32
+          description: Rating value.
+        voterId:
+          type: string
+          description: Voter ID.
+    VoteResponse:
+      allOf:
+        - $ref: '#/components/schemas/VoteRequest'
+        - type: object
+          properties:
+            voteTime:
+              type: string
+              description: Vote time.
+    RatingResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Rating ID.
+        groupId:
+          type: string
+          description: Rating group ID.
+        value:
+          type: number
+          format: double
+          description: Rating value.
+        votes:
+          type: array
+          items:
+            $ref: '#/components/schemas/VoteResponse'
+          description: Rating's votes.
