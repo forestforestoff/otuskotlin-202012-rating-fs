@@ -1,8 +1,11 @@
 package ru.otus.model
 
+import java.time.LocalDateTime
+
 data class Vote(
-    override val id: String,
-    override val groupId: String,
+    override val id: String = "",
+    override val groupId: String = "",
+    val voterId: String = "",
     val value: Int = -1,
-    val voterId: String = ""
+    val voteTime: LocalDateTime = LocalDateTime.now()
 ) : IRatingId, IRatingGroupId

@@ -4,28 +4,61 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import ru.otus.model.Rating
+import ru.otus.model.Vote
 import ru.otus.transport.openapi.models.RatingCreateRequest
 import ru.otus.transport.openapi.models.RatingRequest
 import ru.otus.transport.openapi.models.VoteRequest
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
 class RatingMapperTest : FunSpec() {
 
     init {
+        test("vote to response") {
+            val id = randomId
+            val groupId = randomId
+            val value = 4
+            val voterId = randomId
+            val voteTime = LocalDateTime.now()
+            val vote = Vote(id = id, groupId = groupId, voterId = voterId, value = value, voteTime = voteTime)
+            vote.toResponse().should { response ->
+                response.id shouldBe id
+                response.groupId shouldBe groupId
+                response.voterId shouldBe voterId
+                response.value shouldBe value
+                response.voteTime shouldBe voteTime.toString()
+            }
+        }
+        test("vote request to internal") {
+            val id = randomId
+            val groupId = randomId
+            val value = 4
+            val voterId = randomId
+            val voteRequest = VoteRequest(id = id, groupId = groupId, voterId = voterId, value = value)
+            voteRequest.toInternal().should {
+                it.id shouldBe id
+                it.groupId shouldBe groupId
+                it.voterId shouldBe voterId
+                it.value shouldBe value
+                it.voteTime.toLocalDate() shouldBe LocalDate.now()
+            }
+        }
         test("rating to response") {
             val id = randomId
             val groupId = randomId
             val value = 4.9
             val voterId = randomId
             val voteTime = LocalDateTime.now()
-            val voters = mapOf(voterId to voteTime)
+            val voters = listOf(
+                Vote(voterId = voterId, id = id, groupId = groupId, value = value.toInt(), voteTime = voteTime)
+            )
             val rating = Rating(id, groupId, value, voters)
             rating.toResponse().should { response ->
                 response.id shouldBe id
                 response.groupId shouldBe groupId
                 response.value shouldBe value
-                response.voterIdAndTime shouldBe voters.mapValues { it.value.toString() }
+                response.votes shouldBe voters.map { it.toResponse() }
             }
         }
         test("rating request to internal model") {

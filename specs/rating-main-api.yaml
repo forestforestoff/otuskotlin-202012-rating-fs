@@ -102,6 +102,14 @@ components:
         voterId:
           type: string
           description: Voter ID.
+    VoteResponse:
+      allOf:
+        - $ref: '#/components/schemas/VoteRequest'
+        - type: object
+          properties:
+            voteTime:
+              type: string
+              description: Vote time.
     RatingResponse:
       type: object
       properties:
@@ -115,7 +123,8 @@ components:
           type: number
           format: double
           description: Rating value.
-        voterIdAndTime:
-          additionalProperties:
-            type: string
-          description: Map with voters and voted time.
+        votes:
+          type: array
+          items:
+            $ref: '#/components/schemas/VoteResponse'
+          description: Rating's votes.

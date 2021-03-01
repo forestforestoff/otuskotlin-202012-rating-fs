@@ -49,14 +49,47 @@ class SerializationTest {
     fun ratingResponseTest() {
         val id = randomId
         val groupId = randomId
-        val value = 4.9
+        val value = 4.0
         val voterId = randomId
-        val voteDate = LocalDateTime.now().toString()
-        val voters = mapOf(voterId to voteDate)
-        val dto = RatingResponse(id, groupId, value, voters)
+        val voteTime = LocalDateTime.now().toString()
+        val voteResponse = VoteResponse(
+            voterId = voterId, id = id, groupId = groupId, value = value.toInt(), voteTime = voteTime
+        )
+        val dto = RatingResponse(id, groupId, value, listOf(voteResponse))
         val jsonString = moshi.adapter(RatingResponse::class.java).toJson(dto)
         assertTrue("Json does not contain all fields") {
-            jsonString.contains(groupId) && jsonString.contains(value.toString()) && jsonString.contains(voterId)
+            jsonString.contains(id) && jsonString.contains(groupId) && jsonString.contains(value.toString())
+                    && jsonString.contains(voterId) && jsonString.contains(value.toInt().toString())
+                    && jsonString.contains(voteTime)
+        }
+    }
+
+    @Test
+    fun voteRequestTest() {
+        val id = randomId
+        val groupId = randomId
+        val value = 4
+        val voterId = randomId
+        val dto = VoteRequest(voterId = voterId, id = id, groupId = groupId, value = value)
+        val jsonString = moshi.adapter(VoteRequest::class.java).toJson(dto)
+        assertTrue("Json does not contain all fields") {
+            jsonString.contains(id) && jsonString.contains(groupId) && jsonString.contains(value.toString())
+                    && jsonString.contains(voterId)
+        }
+    }
+
+    @Test
+    fun voteResponseTest() {
+        val id = randomId
+        val groupId = randomId
+        val value = 4
+        val voterId = randomId
+        val voteTime = LocalDateTime.now().toString()
+        val dto = VoteResponse(voterId = voterId, id = id, groupId = groupId, value = value, voteTime = voteTime)
+        val jsonString = moshi.adapter(VoteResponse::class.java).toJson(dto)
+        assertTrue("Json does not contain all fields") {
+            jsonString.contains(id) && jsonString.contains(groupId) && jsonString.contains(value.toString())
+                    && jsonString.contains(voterId) && jsonString.contains(voteTime)
         }
     }
 }
