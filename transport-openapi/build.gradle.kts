@@ -4,11 +4,11 @@ plugins {
 }
 
 dependencies {
-    val moshiVersion: String by project
+    val gsonVersion: String by project
     val okhttp3Version: String by project
 
     implementation(kotlin("stdlib"))
-    implementation("com.squareup.moshi:moshi-kotlin:$moshiVersion")
+    implementation("com.google.code.gson:gson:$gsonVersion")
     implementation("com.squareup.okhttp3:okhttp:$okhttp3Version")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
@@ -19,6 +19,7 @@ openApiGenerate {
     packageName.set(basePackage)
     generatorName.set("kotlin")
     inputSpec.set("${rootProject.projectDir}/specs/rating-main-api.yaml")
+    configOptions.put("serializationLibrary", "gson")
 }
 
 sourceSets.main {
