@@ -1,12 +1,8 @@
 package ru.otus.controller
 
-import io.ktor.application.*
-import io.ktor.request.*
-import io.ktor.response.*
 import io.ktor.routing.*
-import ru.otus.mappers.formRatingResponse
-import ru.otus.mappers.withRequest
-import ru.otus.model.context.Context
+import ru.otus.controller.context.Context
+import ru.otus.model.Rating
 import ru.otus.service.RatingService.createRating
 import ru.otus.service.RatingService.getRating
 import ru.otus.service.RatingService.updateRating
@@ -17,21 +13,24 @@ import ru.otus.transport.openapi.models.VoteRequest
 fun Routing.ratingRouting() {
     route("/rating") {
         post("/create") {
-            Context().withRequest(call.receive<RatingCreateRequest>()).run {
+            Context().run {
+                withRequest(RatingCreateRequest::class)
                 createRating()
-                call.respond(formRatingResponse())
+                respondBy(Rating::class)
             }
         }
         post("/get") {
-            Context().withRequest(call.receive<RatingRequest>()).run {
+            Context().run {
+                withRequest(RatingRequest::class)
                 getRating()
-                call.respond(formRatingResponse())
+                respondBy(Rating::class)
             }
         }
         post("/update") {
-            Context().withRequest(call.receive<VoteRequest>()).run {
+            Context().run {
+                withRequest(VoteRequest::class)
                 updateRating()
-                call.respond(formRatingResponse())
+                respondBy(Rating::class)
             }
         }
     }

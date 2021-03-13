@@ -2,7 +2,7 @@ package ru.otus.service
 
 import ru.otus.model.Rating
 import ru.otus.model.Vote
-import ru.otus.model.context.Context
+import ru.otus.controller.context.Context
 import java.time.LocalDateTime
 
 object RatingService {
