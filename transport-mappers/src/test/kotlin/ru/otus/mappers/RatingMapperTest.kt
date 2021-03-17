@@ -17,31 +17,27 @@ class RatingMapperTest : FunSpec() {
     init {
         test("vote to response") {
             val id = randomId
-            val groupId = randomId
             val value = 4
             val voterId = randomId
             val voteTime = LocalDateTime.now()
-            val vote = Vote(id = id, groupId = groupId, voterId = voterId, value = value, voteTime = voteTime)
+            val vote = Vote(id = id, voterId = voterId, value = value, voteDateTime = voteTime)
             vote.toResponse().should { response ->
                 response.id shouldBe id
-                response.groupId shouldBe groupId
                 response.voterId shouldBe voterId
                 response.value shouldBe value
-                response.voteTime shouldBe voteTime.toString()
+                response.voteDateTime shouldBe voteTime.toString()
             }
         }
         test("vote request to internal") {
             val id = randomId
-            val groupId = randomId
             val value = 4
             val voterId = randomId
-            val voteRequest = VoteRequest(id = id, groupId = groupId, voterId = voterId, value = value)
+            val voteRequest = VoteRequest(id = id, voterId = voterId, value = value)
             voteRequest.toInternal().should {
                 it.id shouldBe id
-                it.groupId shouldBe groupId
                 it.voterId shouldBe voterId
                 it.value shouldBe value
-                it.voteTime.toLocalDate() shouldBe LocalDate.now()
+                it.voteDateTime.toLocalDate() shouldBe LocalDate.now()
             }
         }
         test("rating to response") {
@@ -51,9 +47,9 @@ class RatingMapperTest : FunSpec() {
             val voterId = randomId
             val voteTime = LocalDateTime.now()
             val voters = listOf(
-                Vote(voterId = voterId, id = id, groupId = groupId, value = value.toInt(), voteTime = voteTime)
+                Vote(voterId = voterId, id = id, value = value.toInt(), voteDateTime = voteTime)
             )
-            val rating = Rating(id, groupId, value, voters)
+            val rating = Rating(id, groupId, voters, value)
             rating.toResponse().should { response ->
                 response.id shouldBe id
                 response.groupId shouldBe groupId
@@ -77,13 +73,11 @@ class RatingMapperTest : FunSpec() {
         }
         test("vote request to internal model") {
             val id = randomId
-            val groupId = randomId
             val value = 5
             val voterId = randomId
-            val voteRequest = VoteRequest(id, groupId, value, voterId)
+            val voteRequest = VoteRequest(id, value, voterId)
             voteRequest.toInternal().should {
                 it.id shouldBe id
-                it.groupId shouldBe groupId
                 it.value shouldBe value
                 it.voterId shouldBe voterId
             }
