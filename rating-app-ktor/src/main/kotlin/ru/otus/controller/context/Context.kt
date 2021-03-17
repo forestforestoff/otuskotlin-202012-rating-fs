@@ -11,22 +11,21 @@ import ru.otus.model.Vote
 import ru.otus.transport.openapi.models.RatingCreateRequest
 import ru.otus.transport.openapi.models.RatingRequest
 import ru.otus.transport.openapi.models.VoteRequest
-import kotlin.reflect.KClass
 
 data class Context(
     var rating: Rating = Rating.NONE,
     var vote: Vote = Vote.NONE
 ) {
 
-    suspend inline fun <reified T : Any> PipelineContext<*, ApplicationCall>.respondBy(kClass: KClass<T>) {
-        when (kClass) {
+    suspend inline fun <reified T : Any> PipelineContext<*, ApplicationCall>.respond() {
+        when (T::class) {
             Rating::class -> call.respond(rating.toResponse())
             Vote::class -> call.respond(vote.toResponse())
         }
     }
 
-    suspend inline fun <reified T : Any> PipelineContext<*, ApplicationCall>.withRequest(kClass: KClass<T>) {
-        when (kClass) {
+    suspend inline fun <reified T : Any> PipelineContext<*, ApplicationCall>.withRequest() {
+        when (T::class) {
             VoteRequest::class -> vote = call.receive<VoteRequest>().toInternal()
             RatingRequest::class -> rating = call.receive<RatingRequest>().toInternal()
             RatingCreateRequest::class -> rating = call.receive<RatingCreateRequest>().toInternal()

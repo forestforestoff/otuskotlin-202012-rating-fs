@@ -14,23 +14,23 @@ fun Routing.ratingRouting() {
     route("/rating") {
         post("/create") {
             Context().run {
-                withRequest(RatingCreateRequest::class)
+                withRequest<RatingCreateRequest>()
                 createRating()
-                respondBy(Rating::class)
+                respond<Rating>()
             }
         }
         post("/get") {
             Context().run {
-                withRequest(RatingRequest::class)
+                withRequest<RatingRequest>()
                 getRating()
-                respondBy(Rating::class)
+                respond<Rating>()
             }
         }
         post("/update") {
             Context().run {
-                withRequest(VoteRequest::class)
+                withRequest<VoteRequest>()
                 updateRating()
-                respondBy(Rating::class)
+                respond<Rating>()
             }
         }
     }
