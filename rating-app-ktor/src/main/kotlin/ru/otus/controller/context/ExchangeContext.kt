@@ -12,7 +12,7 @@ import ru.otus.transport.openapi.models.RatingCreateRequest
 import ru.otus.transport.openapi.models.RatingRequest
 import ru.otus.transport.openapi.models.VoteRequest
 
-data class Context(
+data class ExchangeContext(
     var rating: Rating = Rating.NONE,
     var vote: Vote = Vote.NONE
 ) {

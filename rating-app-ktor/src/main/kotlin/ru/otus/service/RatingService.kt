@@ -2,12 +2,12 @@ package ru.otus.service
 
 import ru.otus.model.Rating
 import ru.otus.model.Vote
-import ru.otus.controller.context.Context
+import ru.otus.controller.context.ExchangeContext
 import java.time.LocalDateTime
 
 object RatingService {
 
-    fun Context.createRating() {
+    fun ExchangeContext.createRating() {
         rating = Rating(
             id = "someNewId",
             groupId = rating.groupId,
@@ -16,7 +16,7 @@ object RatingService {
         )
     }
 
-    fun Context.getRating() {
+    fun ExchangeContext.getRating() {
         rating = Rating(
             id = rating.id,
             groupId = "someId",
@@ -32,7 +32,7 @@ object RatingService {
         )
     }
 
-    fun Context.updateRating() {
+    fun ExchangeContext.updateRating() {
         rating = Rating(
             id = vote.id,
             groupId = "someGroupId",

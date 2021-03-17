@@ -10,7 +10,10 @@ fun Vote.toResponse(): VoteResponse = VoteResponse(
 )
 
 fun Rating.toResponse(): RatingResponse = RatingResponse(
-    id = id, groupId = groupId, value = value, votes = votes.map { it.toResponse() }
+    id = id,
+    groupId = groupId,
+    value = value,
+    votes = votes.map { it.toResponse() }
 )
 
 fun VoteRequest.toInternal(): Vote = Vote(
