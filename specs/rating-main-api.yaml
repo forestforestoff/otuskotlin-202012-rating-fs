@@ -92,9 +92,6 @@ components:
         id:
           type: string
           description: Rating ID.
-        groupId:
-          type: string
-          description: Rating group ID.
         value:
           type: integer
           format: integer32
@@ -107,9 +104,9 @@ components:
         - $ref: '#/components/schemas/VoteRequest'
         - type: object
           properties:
-            voteTime:
+            voteDateTime:
               type: string
-              description: Vote time.
+              description: Vote date and time.
     RatingResponse:
       type: object
       properties:
