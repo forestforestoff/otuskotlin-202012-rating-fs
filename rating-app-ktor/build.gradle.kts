@@ -9,6 +9,7 @@ dependencies {
     implementation(project(":backend-common"))
     implementation(project(":transport-openapi"))
     implementation(project(":transport-mappers"))
+    implementation(project(":business-logic"))
     implementation(kotlin("stdlib"))
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
