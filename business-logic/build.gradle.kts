@@ -6,10 +6,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
-}
-
 dependencies {
     val kotestVersion: String by project
 
