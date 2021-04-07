@@ -41,9 +41,9 @@ fun Routing.ratingRouting() {
 }
 
 private suspend inline fun <reified T : Any> PipelineContext<*, ApplicationCall>.respondBy(internalModel: T) {
-    when (T::class) {
-        Rating::class -> call.respond((internalModel as Rating).toResponse())
-        Vote::class -> call.respond((internalModel as Vote).toResponse())
+    when (internalModel) {
+        is Rating -> call.respond((internalModel).toResponse())
+        is Vote -> call.respond((internalModel).toResponse())
     }
 }
 
