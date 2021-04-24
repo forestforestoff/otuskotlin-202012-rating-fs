@@ -5,10 +5,10 @@ import ru.otus.cor.pipeline
 import ru.otus.model.Rating
 import ru.otus.model.context.ExchangeContext
 import ru.otus.service.utils.completePipeline
-import ru.otus.service.utils.initPipeline
+import ru.otus.service.utils.runningPipeline
 
 object RatingCreate : IOperation<ExchangeContext> by pipeline({
-    execute(initPipeline)
+    execute(runningPipeline)
     execute {
         rating = Rating(
             id = "someNewId",

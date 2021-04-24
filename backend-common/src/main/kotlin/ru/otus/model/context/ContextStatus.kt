@@ -2,6 +2,7 @@ package ru.otus.model.context
 
 enum class ContextStatus {
     NONE,
+    INIT,
     RUNNING,
     FINISHING,
     FAILING,

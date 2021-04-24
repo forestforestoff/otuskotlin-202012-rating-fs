@@ -1,11 +1,11 @@
-package ru.otus.model
+package ru.otus.model.context
 
 interface IError {
+    val message: String
     val code: String
     val group: Group
     val field: String
     val level: Level
-    val message: String
 
     enum class Group(val alias: String) {
         NONE(""),

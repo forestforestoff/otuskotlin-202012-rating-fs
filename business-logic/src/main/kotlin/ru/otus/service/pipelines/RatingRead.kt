@@ -7,11 +7,11 @@ import ru.otus.model.Vote
 import ru.otus.model.context.ExchangeContext
 import ru.otus.service.utils.completePipeline
 import ru.otus.service.utils.idNotBlankValidation
-import ru.otus.service.utils.initPipeline
+import ru.otus.service.utils.runningPipeline
 import java.time.LocalDateTime.now
 
 object RatingRead : IOperation<ExchangeContext> by pipeline({
-    execute(initPipeline)
+    execute(runningPipeline)
     validate(idNotBlankValidation)
     execute {
         rating = Rating(

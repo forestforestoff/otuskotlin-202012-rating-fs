@@ -5,11 +5,11 @@ import ru.otus.cor.pipeline
 import ru.otus.model.Rating
 import ru.otus.model.context.ExchangeContext
 import ru.otus.service.utils.completePipeline
-import ru.otus.service.utils.initPipeline
+import ru.otus.service.utils.runningPipeline
 import ru.otus.service.utils.voteUpdateValidation
 
 object RatingUpdate : IOperation<ExchangeContext> by pipeline({
-    execute(initPipeline)
+    execute(runningPipeline)
     validate(voteUpdateValidation)
     execute {
         rating = Rating(
