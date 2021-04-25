@@ -9,7 +9,6 @@ import ru.otus.model.context.ContextStatus.*
 import ru.otus.model.context.EmptySession
 import ru.otus.model.context.ExchangeContext
 import ru.otus.model.context.ProjectError
-import ru.otus.service.RatingCrud
 import ru.otus.service.RatingService
 import ru.otus.session.WsKtorSession
 import ru.otus.transport.openapi.infrastructure.Serializer.gson
@@ -18,10 +17,9 @@ import java.util.concurrent.ConcurrentHashMap
 
 private val sessions = ConcurrentHashMap<DefaultWebSocketSession, WsKtorSession>()
 
-fun Routing.websocketRouting() {
+fun Routing.websocketRouting(ratingService: RatingService) {
     webSocket("/ws") {
         sessions[this] = WsKtorSession(this)
-        val ratingService = RatingService(RatingCrud)
         val ctx = ExchangeContext(userSession = sessions[this] ?: EmptySession(), status = INIT)
         for (frame in incoming) {
             if (frame is Frame.Text) {
