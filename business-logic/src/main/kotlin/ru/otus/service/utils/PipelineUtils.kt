@@ -16,7 +16,7 @@ val completePipeline = pipeline<ExchangeContext> {
     }
 }
 
-val initPipeline = operation<ExchangeContext> {
-    startIf { status == ContextStatus.NONE }
+val runningPipeline = operation<ExchangeContext> {
+    startIf { status == ContextStatus.INIT }
     execute { status = ContextStatus.RUNNING }
 }

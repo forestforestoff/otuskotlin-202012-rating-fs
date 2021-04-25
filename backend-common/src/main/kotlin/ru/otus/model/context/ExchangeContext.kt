@@ -1,12 +1,16 @@
 package ru.otus.model.context
 
-import ru.otus.model.IError
 import ru.otus.model.Rating
 import ru.otus.model.Vote
+import java.time.Instant
+import java.util.*
 
 data class ExchangeContext(
-    var status: ContextStatus = ContextStatus.NONE,
+    val created: Instant = Instant.now(),
+    val contextUid: UUID = UUID.randomUUID(),
+    var status: ContextStatus = ContextStatus.INIT,
     var errors: MutableList<IError> = mutableListOf(),
+    val userSession: ISessionWrapper<*> = EmptySession(),
 
     var rating: Rating = Rating.NONE,
     var vote: Vote = Vote.NONE

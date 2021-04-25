@@ -15,6 +15,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.ktor:ktor-gson:$ktorVersion")
+    implementation("io.ktor:ktor-websockets:$ktorVersion")
 
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }
