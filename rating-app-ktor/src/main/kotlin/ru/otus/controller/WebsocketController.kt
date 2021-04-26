@@ -4,7 +4,6 @@ import io.ktor.http.cio.websocket.*
 import io.ktor.routing.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
-import ru.otus.main.jackson
 import ru.otus.mappers.toInternal
 import ru.otus.mappers.toResponse
 import ru.otus.model.context.ContextStatus.*
@@ -16,6 +15,8 @@ import ru.otus.service.RatingCrud.read
 import ru.otus.service.RatingCrud.update
 import ru.otus.session.WsKtorSession
 import ru.otus.transport.openapi.models.*
+import ru.otus.utils.fromJson
+import ru.otus.utils.toJson
 import java.util.concurrent.ConcurrentHashMap
 
 private val sessions = ConcurrentHashMap<DefaultWebSocketSession, WsKtorSession>()
@@ -28,8 +29,8 @@ fun Routing.websocketRouting() {
             if (frame is Frame.Text) {
                 try {
                     ctx.status = RUNNING
-                    val request = jackson.readValue(frame.readText(), BaseRequest::class.java)
-                    outgoing.send(Frame.Text(jackson.writeValueAsString(ctx.handleRequest(request))))
+                    val request = fromJson(frame.readText(), BaseRequest::class.java)
+                    outgoing.send(Frame.Text(toJson(ctx.handleRequest(request))))
                 } catch (e: ClosedReceiveChannelException) {
                     ctx.status = NONE
                     sessions -= this
@@ -38,7 +39,7 @@ fun Routing.websocketRouting() {
                     val projectError = ProjectError(e.localizedMessage)
                     ctx.errors.add(projectError)
                     ctx.status = ERROR
-                    outgoing.send(Frame.Text(jackson.writeValueAsString(projectError)))
+                    outgoing.send(Frame.Text(toJson(projectError)))
                 }
             }
         }

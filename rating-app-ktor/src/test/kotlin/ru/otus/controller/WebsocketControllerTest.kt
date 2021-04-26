@@ -3,13 +3,14 @@ package ru.otus.controller
 import io.ktor.http.cio.websocket.*
 import io.ktor.server.testing.*
 import org.junit.Test
-import ru.otus.main.jackson
 import ru.otus.main.module
 import ru.otus.model.context.ProjectError
 import ru.otus.transport.openapi.models.RatingCreateRequest
 import ru.otus.transport.openapi.models.RatingRequest
 import ru.otus.transport.openapi.models.RatingResponse
 import ru.otus.transport.openapi.models.VoteRequest
+import ru.otus.utils.fromJson
+import ru.otus.utils.toJson
 import kotlin.test.assertEquals
 
 class WebsocketControllerTest {
@@ -23,11 +24,11 @@ class WebsocketControllerTest {
                     value = 5,
                     voterId = "777"
                 )
-                val requestJson = jackson.writeValueAsString(query)
+                val requestJson = toJson(query)
                 outgoing.send(Frame.Text(requestJson))
                 val respJson = (incoming.receive() as Frame.Text).readText()
                 println("RESPONSE: $respJson")
-                val response = jackson.readValue(respJson, RatingResponse::class.java)
+                val response = fromJson(respJson, RatingResponse::class.java)
                 assertEquals(query.id, response.id)
                 assertEquals(query.value?.toDouble(), response.value)
                 assertEquals(response.votes?.size, 1)
@@ -40,11 +41,11 @@ class WebsocketControllerTest {
         withTestApplication({ module(testing = true) }) {
             handleWebSocketConversation("/ws") { incoming, outgoing ->
                 val query = RatingRequest(id = "1")
-                val requestJson = jackson.writeValueAsString(query)
+                val requestJson = toJson(query)
                 outgoing.send(Frame.Text(requestJson))
                 val respJson = (incoming.receive() as Frame.Text).readText()
                 println("RESPONSE: $respJson")
-                val response = jackson.readValue(respJson, RatingResponse::class.java)
+                val response = fromJson(respJson, RatingResponse::class.java)
                 assertEquals(query.id, response.id)
             }
         }
@@ -55,11 +56,11 @@ class WebsocketControllerTest {
         withTestApplication({ module(testing = true) }) {
             handleWebSocketConversation("/ws") { incoming, outgoing ->
                 val query = RatingCreateRequest(groupId = "1")
-                val requestJson = jackson.writeValueAsString(query)
+                val requestJson = toJson(query)
                 outgoing.send(Frame.Text(requestJson))
                 val respJson = (incoming.receive() as Frame.Text).readText()
                 println("RESPONSE: $respJson")
-                val response = jackson.readValue(respJson, RatingResponse::class.java)
+                val response = fromJson(respJson, RatingResponse::class.java)
                 assertEquals(query.groupId, response.groupId)
             }
         }
@@ -73,7 +74,7 @@ class WebsocketControllerTest {
                 outgoing.send(Frame.Text(requestJson))
                 val respJson = (incoming.receive() as Frame.Text).readText()
                 println("RESPONSE: $respJson")
-                val response = jackson.readValue(respJson, ProjectError::class.java)
+                val response = fromJson(respJson, ProjectError::class.java)
                 assertEquals(response.message, "Invalid vote request update")
             }
         }

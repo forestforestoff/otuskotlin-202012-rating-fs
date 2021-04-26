@@ -1,7 +1,5 @@
 package ru.otus.main
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.jackson.*
@@ -26,5 +24,3 @@ fun Application.registerRatingRoutes() {
         websocketRouting()
     }
 }
-
-val jackson = jacksonObjectMapper().registerKotlinModule()
