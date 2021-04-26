@@ -59,14 +59,14 @@ class RatingMapperTest : FunSpec() {
         }
         test("rating request to internal model") {
             val id = randomId
-            val ratingRequest = RatingRequest(id)
+            val ratingRequest = RatingRequest(id = id)
             ratingRequest.toInternal().should {
                 it.id shouldBe id
             }
         }
         test("rating create request to internal model") {
             val groupId = randomId
-            val ratingCreateRequest = RatingCreateRequest(groupId)
+            val ratingCreateRequest = RatingCreateRequest(groupId = groupId)
             ratingCreateRequest.toInternal().should {
                 it.groupId shouldBe groupId
             }
@@ -75,7 +75,7 @@ class RatingMapperTest : FunSpec() {
             val id = randomId
             val value = 5
             val voterId = randomId
-            val voteRequest = VoteRequest(id, value, voterId)
+            val voteRequest = VoteRequest(id = id, value = value, voterId = voterId)
             voteRequest.toInternal().should {
                 it.id shouldBe id
                 it.value shouldBe value

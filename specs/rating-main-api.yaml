@@ -74,19 +74,49 @@ paths:
                 $ref: '#/components/schemas/RatingResponse'
 components:
   schemas:
+    BaseRequest:
+      type: object
+      title: Базовая структура сообщения
+      properties:
+        type:
+          type: string
+          title: Тип запроса
+          description: 'Идентификатор типа запроса. Используется в качестве дискриминатора при десериализации.
+            Наиболее востребован при пересылке через Websocket и другие транспорты без явного выделения канала.'
+      discriminator:
+        propertyName: type
     RatingRequest:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Rating ID.
+      allOf:
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Rating ID.
     RatingCreateRequest:
-      type: object
-      properties:
-        groupId:
-          type: string
-          description: Rating group ID.
+      allOf:
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            groupId:
+              type: string
+              description: Rating group ID.
     VoteRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Rating ID.
+            value:
+              type: integer
+              format: integer32
+              description: Rating value.
+            voterId:
+              type: string
+              description: Voter ID.
+    VoteResponse:
       type: object
       properties:
         id:
@@ -99,14 +129,9 @@ components:
         voterId:
           type: string
           description: Voter ID.
-    VoteResponse:
-      allOf:
-        - $ref: '#/components/schemas/VoteRequest'
-        - type: object
-          properties:
-            voteDateTime:
-              type: string
-              description: Vote date and time.
+        voteDateTime:
+          type: string
+          description: Vote date and time.
     RatingResponse:
       type: object
       properties:

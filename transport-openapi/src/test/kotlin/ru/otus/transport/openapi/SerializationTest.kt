@@ -1,6 +1,7 @@
 package ru.otus.transport.openapi
 
-import ru.otus.transport.openapi.infrastructure.Serializer.gson
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import ru.otus.transport.openapi.models.*
 import java.time.LocalDateTime
 import java.util.*
@@ -10,6 +11,8 @@ import kotlin.test.assertTrue
 
 class SerializationTest {
 
+    private val jackson = jacksonObjectMapper().registerKotlinModule()
+
     private val randomId: String
         get() = UUID.randomUUID().toString()
 
@@ -17,18 +20,20 @@ class SerializationTest {
     fun ratingRequestTest() {
         val id = randomId
         val dto = RatingRequest(id)
-        val jsonString = gson.toJson(dto)
+        val jsonString = jackson.writeValueAsString(dto)
         assertTrue("Json does not contain ID") { jsonString.contains(id) }
-        assertEquals(dto, gson.fromJson(jsonString, RatingRequest::class.java))
+        assertTrue("Json does not contain type") { jsonString.contains(dto::class.java.simpleName) }
+        assertEquals(dto, jackson.readValue(jsonString, BaseRequest::class.java))
     }
 
     @Test
     fun ratingCreateRequestTest() {
         val groupId = randomId
         val dto = RatingCreateRequest(groupId)
-        val jsonString = gson.toJson(dto)
+        val jsonString = jackson.writeValueAsString(dto)
         assertTrue("Json does not contain ID") { jsonString.contains(groupId) }
-        assertEquals(dto, gson.fromJson(jsonString, RatingCreateRequest::class.java))
+        assertTrue("Json does not contain type") { jsonString.contains(dto::class.java.simpleName) }
+        assertEquals(dto, jackson.readValue(jsonString, BaseRequest::class.java))
     }
 
     @Test
@@ -36,12 +41,13 @@ class SerializationTest {
         val id = randomId
         val value = 5
         val voterId = randomId
-        val dto = VoteRequest(id, value, voterId)
-        val jsonString = gson.toJson(dto)
+        val dto = VoteRequest(id = id, value = value, voterId = voterId)
+        val jsonString = jackson.writeValueAsString(dto)
         assertTrue("Json does not contain all fields") {
             jsonString.contains(value.toString()) && jsonString.contains(voterId)
+                    && jsonString.contains(dto::class.java.simpleName)
         }
-        assertEquals(dto, gson.fromJson(jsonString, VoteRequest::class.java))
+        assertEquals(dto, jackson.readValue(jsonString, BaseRequest::class.java))
     }
 
     @Test
@@ -55,7 +61,7 @@ class SerializationTest {
             voterId = voterId, id = id, value = value.toInt(), voteDateTime = voteTime
         )
         val dto = RatingResponse(id, groupId, value, listOf(voteResponse))
-        val jsonString = gson.toJson(dto)
+        val jsonString = jackson.writeValueAsString(dto)
         assertTrue("Json does not contain all fields") {
             jsonString.contains(id) && jsonString.contains(groupId) && jsonString.contains(value.toString())
                     && jsonString.contains(voterId) && jsonString.contains(value.toInt().toString())
@@ -69,9 +75,11 @@ class SerializationTest {
         val value = 4
         val voterId = randomId
         val dto = VoteRequest(voterId = voterId, id = id, value = value)
-        val jsonString = gson.toJson(dto)
+        val jsonString = jackson.writeValueAsString(dto)
+        println(jsonString)
         assertTrue("Json does not contain all fields") {
             jsonString.contains(id) && jsonString.contains(value.toString()) && jsonString.contains(voterId)
+                    && jsonString.contains(dto::class.java.simpleName)
         }
     }
 
@@ -82,7 +90,7 @@ class SerializationTest {
         val voterId = randomId
         val voteTime = LocalDateTime.now().toString()
         val dto = VoteResponse(voterId = voterId, id = id, value = value, voteDateTime = voteTime)
-        val jsonString = gson.toJson(dto)
+        val jsonString = jackson.writeValueAsString(dto)
         assertTrue("Json does not contain all fields") {
             jsonString.contains(id) && jsonString.contains(value.toString()) && jsonString.contains(voterId)
                     && jsonString.contains(voteTime)

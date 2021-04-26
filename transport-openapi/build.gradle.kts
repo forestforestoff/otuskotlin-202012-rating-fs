@@ -4,12 +4,10 @@ plugins {
 }
 
 dependencies {
-    val gsonVersion: String by project
-    val okhttp3Version: String by project
+    val jacksonVersion: String by project
 
+    api("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation(kotlin("stdlib"))
-    implementation("com.google.code.gson:gson:$gsonVersion")
-    implementation("com.squareup.okhttp3:okhttp:$okhttp3Version")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
 }
@@ -18,8 +16,25 @@ openApiGenerate {
     val basePackage = "${project.group}.transport.openapi"
     packageName.set(basePackage)
     generatorName.set("kotlin")
+    apiPackage.set("$basePackage.api")
+    invokerPackage.set("$basePackage.invoker")
+    modelPackage.set("$basePackage.models")
+    globalProperties.apply {
+        put("models", "")
+        put("modelDocs", "false")
+        put("invoker", "false")
+        put("apis", "false")
+    }
+    configOptions.set(
+        mapOf(
+            "dateLibrary" to "string",
+            "enumPropertyNaming" to "UPPERCASE",
+            "library" to "multiplatform",
+            "serializationLibrary" to "jackson",
+            "collectionType" to "list"
+        )
+    )
     inputSpec.set("${rootProject.projectDir}/specs/rating-main-api.yaml")
-    configOptions.put("serializationLibrary", "gson")
 }
 
 sourceSets.main {
