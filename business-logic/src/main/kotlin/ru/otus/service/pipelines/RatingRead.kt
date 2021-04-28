@@ -20,7 +20,8 @@ object RatingRead : IOperation<ExchangeContext> by pipeline({
             value = 5.0,
             votes = listOf(
                 Vote(
-                    id = rating.id,
+                    id = "someVoteId",
+                    ratingId = rating.id,
                     voterId = "someVoterId",
                     value = 5,
                     voteDateTime = now()

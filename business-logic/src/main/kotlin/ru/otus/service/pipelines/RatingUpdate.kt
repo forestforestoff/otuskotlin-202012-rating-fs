@@ -13,7 +13,7 @@ object RatingUpdate : IOperation<ExchangeContext> by pipeline({
     validate(voteUpdateValidation)
     execute {
         rating = Rating(
-            id = vote.id,
+            id = vote.ratingId,
             groupId = "someGroupId",
             value = vote.value.toDouble(),
             votes = listOf(vote)

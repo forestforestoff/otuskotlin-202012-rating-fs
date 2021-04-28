@@ -31,7 +31,7 @@ class RatingCrudTest : FunSpec() {
                     rating.groupId shouldBe "someId"
                     rating.value shouldBe 5.0
                     rating.votes.first().should {
-                        it.id shouldBe "someNewId"
+                        it.id shouldBe "someVoteId"
                         it.voterId shouldBe "someVoterId"
                         it.value shouldBe 5
                     }
