@@ -6,7 +6,7 @@ import ru.otus.transport.openapi.models.*
 import java.time.LocalDateTime
 
 fun Vote.toResponse(): VoteResponse = VoteResponse(
-    id, value, voterId, voteDateTime.toString()
+    id, ratingId, value, voterId, voteDateTime.toString()
 )
 
 fun Rating.toResponse(): RatingResponse = RatingResponse(
@@ -18,6 +18,7 @@ fun Rating.toResponse(): RatingResponse = RatingResponse(
 
 fun VoteRequest.toInternal(): Vote = Vote(
     id = id ?: "",
+    ratingId = ratingId ?: "",
     value = value ?: -1,
     voterId = voterId ?: "",
     voteDateTime = LocalDateTime.now()

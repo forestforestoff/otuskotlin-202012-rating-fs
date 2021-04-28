@@ -76,7 +76,7 @@ components:
   schemas:
     BaseRequest:
       type: object
-      title: Базовая структура сообщения
+      title: Базовая структура запроса
       properties:
         type:
           type: string
@@ -108,6 +108,9 @@ components:
           properties:
             id:
               type: string
+              description: Vote ID.
+            ratingId:
+              type: string
               description: Rating ID.
             value:
               type: integer
@@ -120,6 +123,9 @@ components:
       type: object
       properties:
         id:
+          type: string
+          description: Vote ID.
+        ratingId:
           type: string
           description: Rating ID.
         value:

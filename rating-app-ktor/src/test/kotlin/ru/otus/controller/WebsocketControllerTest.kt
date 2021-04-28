@@ -21,6 +21,7 @@ class WebsocketControllerTest {
             handleWebSocketConversation("/ws") { incoming, outgoing ->
                 val query = VoteRequest(
                     id = "1",
+                    ratingId = "123",
                     value = 5,
                     voterId = "777"
                 )
@@ -29,7 +30,7 @@ class WebsocketControllerTest {
                 val respJson = (incoming.receive() as Frame.Text).readText()
                 println("RESPONSE: $respJson")
                 val response = fromJson(respJson, RatingResponse::class.java)
-                assertEquals(query.id, response.id)
+                assertEquals(query.ratingId, response.id)
                 assertEquals(query.value?.toDouble(), response.value)
                 assertEquals(response.votes?.size, 1)
             }

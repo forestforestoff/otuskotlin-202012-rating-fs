@@ -55,7 +55,7 @@ class RatingControllerTest {
     fun testUpdateRating() {
         withTestApplication({ module(testing = true) }) {
             handleRequest(HttpMethod.Post, "/rating/update") {
-                val request = VoteRequest(id = "123", value = 5, voterId = "777")
+                val request = VoteRequest(id = "1", ratingId = "123", value = 5, voterId = "777")
                 setBody(toJson(request))
                 addHeader("Content-Type", "application/json")
             }.apply {
@@ -66,7 +66,7 @@ class RatingControllerTest {
                 assertEquals("123", ratingResponseFromJson.id, "Wrong ID!")
                 assertEquals(5.0, ratingResponseFromJson.value, "Wrong value!")
                 val voteResponse = ratingResponseFromJson.votes!!.first()
-                assertEquals("123", voteResponse.id, "Wrong vote ID!")
+                assertEquals("123", voteResponse.ratingId, "Wrong vote ID!")
                 assertEquals(5, voteResponse.value, "Wrong vote value!")
                 assertEquals("777", voteResponse.voterId, "Wrong voter ID!")
             }

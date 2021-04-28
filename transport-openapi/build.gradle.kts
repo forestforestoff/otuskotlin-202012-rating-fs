@@ -6,7 +6,7 @@ plugins {
 dependencies {
     val jacksonVersion: String by project
 
-    api("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation(kotlin("stdlib"))
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))

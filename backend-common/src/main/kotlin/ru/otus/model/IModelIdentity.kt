@@ -1,5 +1,5 @@
 package ru.otus.model
 
-interface IRatingId {
+interface IModelIdentity {
     val id: String
 }
