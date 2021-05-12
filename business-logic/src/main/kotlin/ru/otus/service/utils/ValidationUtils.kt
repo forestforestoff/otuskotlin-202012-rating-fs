@@ -9,6 +9,6 @@ val idNotBlankValidation = validation<ExchangeContext> {
 }
 
 val voteUpdateValidation = validation<ExchangeContext> {
-    validate { vote.id.isNotBlank() || vote.value != -1 }
+    validate { vote.ratingId.isNotBlank() || vote.value > 0 }
     withMessage("Invalid vote request update")
 }
