@@ -43,39 +43,43 @@ class RatingRepoPostgresqlExposedTest {
         }
     }
 
+    private val someGroupId = UUID.randomUUID().toString()
+
     @Test
     fun repoTest() {
         ExchangeContext().run {
             runBlocking {
-                val someGroupId = UUID.randomUUID().toString()
                 rating = Rating(groupId = someGroupId)
                 create()
-                assert(rating.id.isNotBlank())
-                assertEquals(rating.groupId, someGroupId)
-                assertEquals(rating.votes, emptyList<Vote>())
-                assertEquals(rating.value, 0.0)
+                assert(rating.id.isNotBlank()) { "Rating id should not be empty after create" }
+                assertEquals(rating.groupId, someGroupId) { "Group id should be $someGroupId after create" }
+                assertEquals(rating.votes, emptyList<Vote>()) { "Votes list should be empty after create" }
+                assertEquals(rating.value, 0.0) { "Value should be empty after create" }
+
                 vote = Vote(ratingId = rating.id, value = 5)
                 update()
-                assertEquals(rating.groupId, someGroupId)
-                assertEquals(rating.value, 5.0)
-                assertEquals(rating.votes.size, 1)
+                assertEquals(rating.groupId, someGroupId) { "Group id should be $someGroupId after update" }
+                assertEquals(rating.value, 5.0) { "Value should be 5.0 after update" }
+                assertEquals(rating.votes.size, 1) { "Votes list should have one vote after update" }
                 val firstVote = rating.votes.first()
-                assertEquals(firstVote.value, 5)
-                assertEquals(firstVote.ratingId, rating.id)
+                assertEquals(firstVote.value, 5) { "Vote value should be 5 after update" }
+                assertEquals(firstVote.ratingId, rating.id) { "Vote rating id should be ${rating.id} after update" }
+
                 vote = Vote(ratingId = rating.id, value = 3)
                 update()
-                assertEquals(rating.groupId, someGroupId)
-                assertEquals(rating.value, 4.0)
-                assertEquals(rating.votes.size, 2)
+                assertEquals(rating.groupId, someGroupId) { "Group id should be $someGroupId after update" }
+                assertEquals(rating.value, 4.0) { "Value should be 4.0 after update" }
+                assertEquals(rating.votes.size, 2) { "Votes list should have two votes after update" }
+
                 val id = rating.id
                 rating = Rating(id)
-                assertEquals(rating.groupId, "")
-                assertEquals(rating.value, 0.0)
-                assertEquals(rating.votes.size, 0)
+                assertEquals(rating.groupId, "") { "Group id should be empty before read" }
+                assertEquals(rating.value, 0.0) { "Value should be 0.0 before read" }
+                assertEquals(rating.votes.size, 0) { "Votes list should be empty before read" }
                 read()
-                assertEquals(rating.groupId, someGroupId)
-                assertEquals(rating.value, 4.0)
-                assertEquals(rating.votes.size, 2)
+                assertEquals(rating.groupId, someGroupId) { "Group id should be $someGroupId after read" }
+                assertEquals(rating.value, 4.0) { "Value should be 4.0 after read" }
+                assertEquals(rating.votes.size, 2) { "Votes list should have two votes after read" }
             }
         }
     }
