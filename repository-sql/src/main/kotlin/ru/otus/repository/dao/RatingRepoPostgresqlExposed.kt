@@ -30,23 +30,22 @@ object RatingRepoPostgresqlExposed : IRatingRepository {
     override suspend fun ExchangeContext.update() {
         rating = transaction(db) {
             VoteDto.new {
-                ratingId = RatingDto[(rating.id.uuid()!!)]
+                ratingId = RatingDto[(vote.ratingId.uuid()!!)]
                 voterId = vote.voterId.uuid()
                 value = vote.value
                 voteDateTime = vote.voteDateTime.format(dateTimeFormatter)
             }
-            RatingDto[rating.id.uuid()!!].apply {
+            RatingDto[vote.ratingId.uuid()!!].apply {
                 value = votes.map { it.value }.average().toBigDecimal()
             }.toModel()
         }
     }
 
-    override suspend fun delete(vararg id: String) {
+    override suspend fun ExchangeContext.delete() {
         transaction(db) {
-            id.forEach {
-                RatingDto.findById(it.uuid()!!)?.delete()
-            }
+            RatingDto.findById(rating.id.uuid()!!)?.delete()
         }
+        rating = Rating.NONE
     }
 }
 

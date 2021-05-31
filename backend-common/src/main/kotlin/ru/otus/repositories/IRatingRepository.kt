@@ -6,7 +6,7 @@ interface IRatingRepository {
     suspend fun ExchangeContext.read()
     suspend fun ExchangeContext.create()
     suspend fun ExchangeContext.update()
-    suspend fun delete(vararg id: String)
+    suspend fun ExchangeContext.delete()
 
     companion object {
         val NONE = object : IRatingRepository {
@@ -22,7 +22,7 @@ interface IRatingRepository {
                 TODO("Not yet implemented")
             }
 
-            override suspend fun delete(vararg id: String) {
+            override suspend fun ExchangeContext.delete() {
                 TODO("Not yet implemented")
             }
         }
