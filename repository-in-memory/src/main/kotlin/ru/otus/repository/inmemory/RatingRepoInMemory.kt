@@ -45,9 +45,9 @@ class RatingRepoInMemory(ttl: Duration) : IRatingRepository {
         } ?: throw IllegalArgumentException("No rating with id $id found")
     }
 
-    override suspend fun delete(vararg id: String) {
-        ratingCache.removeAll(id.asIterable())
-        voteCache.removeAll(id.asIterable())
+    override suspend fun ExchangeContext.delete() {
+        ratingCache.remove(rating.id)
+        voteCache.remove(rating.id)
     }
 
     private fun ExchangeContext.updateVote(id: String): VoteDtoWrapper =
