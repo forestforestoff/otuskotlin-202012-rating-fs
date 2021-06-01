@@ -22,14 +22,14 @@ import kotlin.test.assertEquals
 class RatingControllerTest {
 
     private fun createNewRating(): String {
-        ExchangeContext().run {
+        ExchangeContext(useAuth = false).run {
             runBlocking { create() }
             return rating.id
         }
     }
 
     private fun removeRating(ratingId: String) {
-        runBlocking { ExchangeContext(rating = Rating(id = ratingId)).delete() }
+        runBlocking { ExchangeContext(rating = Rating(id = ratingId), useAuth = false).delete() }
     }
 
     @Test

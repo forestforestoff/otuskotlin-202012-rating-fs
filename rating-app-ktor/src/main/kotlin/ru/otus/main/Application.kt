@@ -5,6 +5,7 @@ import io.ktor.features.*
 import io.ktor.jackson.*
 import io.ktor.routing.*
 import io.ktor.websocket.*
+import ru.otus.authentication.authFeature
 import ru.otus.controller.ratingRouting
 import ru.otus.controller.websocketRouting
 
@@ -14,13 +15,14 @@ fun Application.module(testing: Boolean = false) {
     install(ContentNegotiation) {
         jackson()
     }
+    authFeature(testing)
     install(WebSockets)
-    registerRatingRoutes()
+    registerRatingRoutes(testing)
 }
 
-fun Application.registerRatingRoutes() {
+fun Application.registerRatingRoutes(testing: Boolean) {
     routing {
-        ratingRouting()
-        websocketRouting()
+        ratingRouting(testing)
+        websocketRouting(testing)
     }
 }

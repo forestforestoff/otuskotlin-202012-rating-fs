@@ -21,10 +21,10 @@ import java.util.concurrent.ConcurrentHashMap
 
 private val sessions = ConcurrentHashMap<DefaultWebSocketSession, WsKtorSession>()
 
-fun Routing.websocketRouting() {
+fun Routing.websocketRouting(testing: Boolean) {
     webSocket("/ws") {
         sessions[this] = WsKtorSession(this)
-        val ctx = ExchangeContext(userSession = sessions[this] ?: EmptySession(), status = INIT)
+        val ctx = ExchangeContext(userSession = sessions[this] ?: EmptySession(), status = INIT, useAuth = !testing)
         for (frame in incoming) {
             if (frame is Frame.Text) {
                 try {
