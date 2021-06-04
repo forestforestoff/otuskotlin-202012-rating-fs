@@ -1,3 +1,3 @@
 package ru.otus.cor
 
-class ValidationException(val failMessage: String) : RuntimeException(failMessage)
+class ValidationException(failMessage: String) : RuntimeException(failMessage)
