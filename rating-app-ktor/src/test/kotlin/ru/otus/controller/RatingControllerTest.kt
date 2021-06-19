@@ -41,7 +41,6 @@ class RatingControllerTest {
                 setBody(toJson(request))
                 addHeader("Content-Type", "application/json")
             }.apply {
-                println(response.content)
                 assertEquals(HttpStatusCode.OK, response.status())
                 assertEquals(Json.withCharset(Charsets.UTF_8), response.contentType())
                 val ratingResponseFromJson = fromJson(response.content.orEmpty(), RatingResponse::class.java)
@@ -62,7 +61,6 @@ class RatingControllerTest {
                 setBody(toJson(request))
                 addHeader("Content-Type", "application/json")
             }.apply {
-                println(response.content)
                 assertEquals(HttpStatusCode.OK, response.status())
                 assertEquals(Json.withCharset(Charsets.UTF_8), response.contentType())
                 val ratingResponseFromJson = fromJson(response.content.orEmpty(), RatingResponse::class.java)
@@ -82,7 +80,6 @@ class RatingControllerTest {
                 setBody(toJson(request))
                 addHeader("Content-Type", "application/json")
             }.apply {
-                println(response.content)
                 assertEquals(HttpStatusCode.OK, response.status())
                 assertEquals(Json.withCharset(Charsets.UTF_8), response.contentType())
                 val ratingResponseFromJson = fromJson(response.content.orEmpty(), RatingResponse::class.java)
