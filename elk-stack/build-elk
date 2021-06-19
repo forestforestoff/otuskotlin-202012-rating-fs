@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERS=7.13.1
+VERS=7.13.2
 
 for i in elasticsearch kibana logstash
 do

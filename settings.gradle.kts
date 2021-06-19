@@ -3,6 +3,7 @@ rootProject.name = "otuskotlin-202012-rating-fs"
 pluginManagement {
     val kotlinVersion: String by settings
     val openApiVersion: String by settings
+    val bmuschkoVersion: String by settings
 
     plugins {
         kotlin("multiplatform") version kotlinVersion
@@ -10,6 +11,7 @@ pluginManagement {
         kotlin("js") version kotlinVersion
         kotlin("plugin.serialization") version kotlinVersion
 
+        id("com.bmuschko.docker-java-application") version bmuschkoVersion
         id("org.openapi.generator") version openApiVersion
     }
 }

@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("com.bmuschko.docker-java-application")
 }
 
 dependencies {
@@ -21,4 +22,20 @@ dependencies {
     implementation("io.ktor:ktor-auth-jwt:$ktorVersion")
 
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
+}
+
+docker {
+    javaApplication {
+        baseImage.set("openjdk:11.0.11-oraclelinux7")
+        maintainer.set("s.a.filimonov")
+        ports.set(listOf(8080))
+        val imageName = project.name
+        images.set(
+            listOf(
+                "$imageName:${project.version}",
+                "$imageName:latest"
+            )
+        )
+        jvmArgs.set(listOf("-Xms256m", "-Xmx2048m"))
+    }
 }

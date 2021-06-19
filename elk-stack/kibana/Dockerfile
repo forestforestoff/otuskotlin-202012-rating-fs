@@ -1,3 +1,3 @@
-FROM docker.elastic.co/kibana/kibana:7.13.1
+FROM docker.elastic.co/kibana/kibana:7.13.2
 WORKDIR /usr/share/kibana
 COPY kibana.yml config/
